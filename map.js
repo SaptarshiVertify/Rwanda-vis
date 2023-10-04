@@ -99,6 +99,6 @@ districtDropdown.addEventListener('change', function() {
     else {
         var coords = dist_centres[dists.indexOf(selectedOption)];
         map.setCenter(coords);
-        map.setZoom(11);
+        map.setZoom(12);
     }
 });
