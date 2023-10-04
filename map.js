@@ -39,21 +39,6 @@ for (i in dists){
 };
 
 map.on('load', () => {
-    for (i=0;i<layer_id.length;i++){
-        map.addLayer({
-            id: layer_id[i],
-            type:'fill',
-            source: {
-                type: 'vector',
-                url: 'mapbox://'+layer_src[i]
-            },
-            'source-layer': layer_id[i],
-            paint: {
-                'fill-color': 'red',
-                'fill-opacity':0.3
-            }
-        });
-    }
     map.addSource('your-vector-source', {
         type: 'vector',
         url: 'mapbox://dev0510.8h24xvdp' // Replace with the URL of your vector file
@@ -82,12 +67,28 @@ map.on('load', () => {
         'source-layer': 'attachments-7r74eu', // Replace with your source layer name
         paint: {
             'line-color': 'black', // Boundary color
-            'line-width': 1 // Boundary line width
+            'line-width': 2 // Boundary line width
         },
         layout: {
             'visibility': 'visible' // Layer visibility (you can toggle this if needed)
         }
-    });    
+    });   
+    
+    for (i=0;i<layer_id.length;i++){
+        map.addLayer({
+            id: layer_id[i],
+            type:'fill',
+            source: {
+                type: 'vector',
+                url: 'mapbox://'+layer_src[i]
+            },
+            'source-layer': layer_id[i],
+            paint: {
+                'fill-color': 'red',
+                'fill-opacity':0.3
+            }
+        });
+    }
 });
  
 // After the last frame rendered before the map enters an "idle" state.
