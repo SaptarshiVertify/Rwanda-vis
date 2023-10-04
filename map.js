@@ -54,6 +54,40 @@ map.on('load', () => {
             }
         });
     }
+    map.addSource('your-vector-source', {
+        type: 'vector',
+        url: 'mapbox://dev0510.8h24xvdp' // Replace with the URL of your vector file
+    });
+
+    map.addLayer({
+        id: 'vector-boundaries',
+        type: 'fill',
+        source: 'your-vector-source',
+        'source-layer': 'attachments-7r74eu', // Replace with your source layer name
+        paint: {
+            'fill-color': 'transparent', // Transparent fill
+            'fill-outline-color': 'blue', // Boundary color
+            'fill-opacity': 0.5 // Adjust fill opacity as needed (0 for completely transparent)
+        },
+        layout: {
+            'visibility': 'visible' // Layer visibility (you can toggle this if needed)
+        }
+    });
+
+    // Add a boundary line layer on top of the filled polygons
+    map.addLayer({
+        id: 'vector-boundary-lines',
+        type: 'line',
+        source: 'your-vector-source',
+        'source-layer': 'attachments-7r74eu', // Replace with your source layer name
+        paint: {
+            'line-color': 'black', // Boundary color
+            'line-width': 1 // Boundary line width
+        },
+        layout: {
+            'visibility': 'visible' // Layer visibility (you can toggle this if needed)
+        }
+    });    
 });
  
 // After the last frame rendered before the map enters an "idle" state.
