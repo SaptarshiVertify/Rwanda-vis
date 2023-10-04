@@ -138,7 +138,7 @@ districtDropdown.addEventListener('change', function() {
     else {
         var coords = dist_centres[dists.indexOf(selectedOption)];
         map.setCenter(coords);
-        map.setZoom(12);
+        map.setZoom(11);
         var para = document.getElementById('stats-p');
         var tot_ar = dist_areas[dists.indexOf(selectedOption)];
         var tea_ar = tea_areas[dists.indexOf(selectedOption)];
