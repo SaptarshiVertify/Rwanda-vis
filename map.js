@@ -18,11 +18,12 @@ const map = new mapboxgl.Map({
 });
 
 //  Saving all layers : names and ids (here we also listed their centres in [long,lat] format)
-var dists = ['Nyaruguru-3qg4fb','Karongi-81wydm','Nyamasheke-8puc8i','Nyamagabe-78mync','Rutsiro-9gh9pe','Rusizi-dlvijs','Rulindo-6bqsr2','Gicumbi-c0j9kk','Nyabihu-3bc8hf','Ngororero-25fb1y','Rubavu-aczv4b'];
-var dists_src = ['dev0510.ba0vl8yj','dev0510.96wpl6uc','dev0510.295a24zv','Nyamagabe-78mync','dev0510.2cbpva0i','dev0510.byhp8at6','dev0510.26dn88ay','dev0510.dd557ud4','dev0510.agp7tvfh','dev0510.b4sapel7','dev0510.bairm4hz'];
+var dists = ['Nyaruguru','Karongi','Nyamasheke','Nyamagabe','Rutsiro','Rusizi','Rulindo','Gicumbi','Nyabihu','Ngororero','Rubavu'];
+// var dists_src = ['dev0510.ba0vl8yj','dev0510.96wpl6uc','dev0510.295a24zv','Nyamagabe-78mync','dev0510.2cbpva0i','dev0510.byhp8at6','dev0510.26dn88ay','dev0510.dd557ud4','dev0510.agp7tvfh','dev0510.b4sapel7','dev0510.bairm4hz'];
 var dist_centres = [
     [29.5,-2.69],[29.41,-2.17],[29.15,-2.4],[29.434,-2.439],[29.39,-1.86],[28.94,-2.5],[29.96,-1.67],[30.04,-1.51],[29.49,-1.68],[29.52,-1.83],[29.33,-1.72]
 ];
+var dist_areas = [100834,99002.6,117195,109220,116185,95824.6,56841.6,83014.5,53840,67731.2,38446.8];
 
 var layer_id=['tea_musk_vector_diss-1b2wcy'];
 var layer_src = ['dev0510.0peqplg6'];
@@ -32,7 +33,7 @@ var dist_drop = document.getElementById('district-dropdown');
 for (i in dists){
     var opt = document.createElement('option');
     opt.value = dists[i];
-    opt.text = dists[i].split('-')[0];
+    opt.text = dists[i];
     dist_drop.appendChild(opt);
 };
 
@@ -94,11 +95,16 @@ districtDropdown.addEventListener('change', function() {
     var selectedOption = districtDropdown.value;
     if (selectedOption=='All'){
         map.setCenter([29.7,-1.7]);
-        map.setZoom(10)
+        map.setZoom(10);
+        var para = document.getElementById('stats-p');
+        para.innerHTML = `District selected : All<br>Total area : 938135.3 Ha<br>Tea plantation area : Ha`;
     }
     else {
         var coords = dist_centres[dists.indexOf(selectedOption)];
         map.setCenter(coords);
         map.setZoom(12);
+        var para = document.getElementById('stats-p');
+        var tot_ar = dist_areas[dists.indexOf(selectedOption)]
+        para.innerHTML = `District selected : All<br>Total area : ${tot_ar}Ha<br>Tea plantation area : Ha`;
     }
 });
