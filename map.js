@@ -119,7 +119,7 @@ toggleButton.addEventListener('click', () => {
     } else {
         mapOverlay.style.display = 'block';
         toggleButton.innerHTML = "Layers &#129145;"
-        mapOverlayContainer.style.height = '120px';
+        mapOverlayContainer.style.height = '140px';
         mapOverlay.style.backgroundcolor = 'white';
     }
 });
