@@ -10,7 +10,7 @@ const map = new mapboxgl.Map({
     container: 'map',
     // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
     style: 'mapbox://styles/mapbox/satellite-v9',
-	opacity: 0.9,
+	opacity: 1,
     center: [29.7,-1.7],
     zoom: 10,
     // projection: 'natural' // starting projection
@@ -72,15 +72,17 @@ const toggleButton = document.getElementById('toggle-overlay-button');
 const mapOverlay = document.querySelector('.map-overlay');
 const mapOverlayContainer = document.querySelector('.map-overlay');
 
+// Initially, set the content as visible and the button text as '-'
+mapOverlay.style.display = 'block';
+
 toggleButton.addEventListener('click', () => {
     if (mapOverlay.style.display === 'block' ) {
         mapOverlay.style.display = 'none';
         mapOverlayContainer.style.height = '40px';
-        toggleButton.innerHTML = "Layers    &#129147;";
-        // toggleButton.textContent = 'Layers'+ String.fromCharCode(129137);
+        toggleButton.innerHTML = "Layers &#129147;";
     } else {
         mapOverlay.style.display = 'block';
-        toggleButton.innerHTML = "Layers    &#129145;"
+        toggleButton.innerHTML = "Layers &#129145;"
         mapOverlayContainer.style.height = '120px';
         mapOverlay.style.backgroundcolor = 'white';
     }
