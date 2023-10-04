@@ -9,6 +9,10 @@ body {
 	width: 100%; 
 }
 
+#logo {
+	position: absolute;
+}
+
 .map-overlay-container {
     position: absolute;
     top: 20px;
