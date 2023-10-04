@@ -24,6 +24,7 @@ var dist_centres = [
     [29.5,-2.69],[29.41,-2.17],[29.15,-2.4],[29.434,-2.439],[29.39,-1.86],[28.94,-2.5],[29.96,-1.67],[30.04,-1.51],[29.49,-1.68],[29.52,-1.83],[29.33,-1.72]
 ];
 var dist_areas = [100834,99002.6,117195,109220,116185,95824.6,56841.6,83014.5,53840,67731.2,38446.8];
+var tea_areas = [4008,2821,3170,2967,1851,804,1716,2478,1585,1101,389];
 
 var layer_id=['tea_musk_vector_diss-1b2wcy'];
 var layer_src = ['dev0510.0peqplg6'];
@@ -97,14 +98,15 @@ districtDropdown.addEventListener('change', function() {
         map.setCenter([29.7,-1.7]);
         map.setZoom(10);
         var para = document.getElementById('stats-p');
-        para.innerHTML = `District selected : All<br>Total area : 938135.3 Ha<br>Tea plantation area : Ha`;
+        para.innerHTML = `District selected : All<br>Total area : 938135.3 Ha<br>Tea plantation area : 22890Ha`;
     }
     else {
         var coords = dist_centres[dists.indexOf(selectedOption)];
         map.setCenter(coords);
         map.setZoom(12);
         var para = document.getElementById('stats-p');
-        var tot_ar = dist_areas[dists.indexOf(selectedOption)]
-        para.innerHTML = `District selected : All<br>Total area : ${tot_ar}Ha<br>Tea plantation area : Ha`;
+        var tot_ar = dist_areas[dists.indexOf(selectedOption)];
+        var tea_ar = tea_areas[dists.indexOf(selectedOption)];
+        para.innerHTML = `District selected : ${selectedOption}<br>Total area : ${tot_ar}Ha<br>Tea plantation area : ${tea_ar}Ha`;
     }
 });
