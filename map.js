@@ -73,6 +73,20 @@ map.on('load', () => {
             'visibility': 'visible' // Layer visibility (you can toggle this if needed)
         }
     });   
+
+    map.addLayer({
+        id: 'Tea_farms_census_2017',
+        type:'fill',
+        source: {
+            type: 'vector',
+            url: 'mapbox://dev0510.4uhv9srz'
+        },
+        'source-layer': 'Tea_farms_census_2017-8kieeo',
+        paint: {
+            'fill-color': 'blue',
+            'fill-opacity':0.3
+        }
+    });
     
     for (i=0;i<layer_id.length;i++){
         map.addLayer({
@@ -89,18 +103,27 @@ map.on('load', () => {
             }
         });
     }
+
 });
  
 // After the last frame rendered before the map enters an "idle" state.
 map.on('idle', () => {
 	// Add an event listener to update layer opacity when the slider changes
-    document.getElementById('opacity-slider').addEventListener('input', function (e) {
+    document.getElementById('opacity-slider-1').addEventListener('input', function (e) {
         var opacity = parseFloat(e.target.value);
 
         // Update the opacity of all fill layers
         layer_id.forEach(function (layerId) {
             map.setPaintProperty(layerId, 'fill-opacity', opacity);
         });
+    });
+
+    // Add an event listener to update layer opacity when the slider changes
+    document.getElementById('opacity-slider-2').addEventListener('input', function (e) {
+        var opacity = parseFloat(e.target.value);
+
+        // Update the opacity of layer
+        map.setPaintProperty('Tea_farms_census_2017', 'fill-opacity', opacity);
     });
 
 });
