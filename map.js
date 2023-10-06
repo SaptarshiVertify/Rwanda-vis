@@ -26,8 +26,9 @@ var dist_centres = [
 var dist_areas = [100834,99002.6,117195,109220,116185,95824.6,56841.6,83014.5,53840,67731.2,38446.8];
 var tea_areas = [4008,2821,3170,2967,1851,804,1716,2478,1585,1101,389];
 
-var layer_id=['tea_musk_vector_diss-1b2wcy'];
-var layer_src = ['dev0510.0peqplg6'];
+var layer_id=['Tea_farms_census_2017-8kieeo','corporative_data-4k996u','tea_musk_vector_diss_edit-54q76e'];
+var layer_src = ['dev0510.4uhv9srz','dev0510.89bph4q2','dev0510.52ks4r0r'];
+var layer_colours = ['blue','yellow','red']
 
 // Populate dropdown menu for each layer
 var dist_drop = document.getElementById('district-dropdown');
@@ -73,22 +74,8 @@ map.on('load', () => {
             'visibility': 'visible' // Layer visibility (you can toggle this if needed)
         }
     });   
-
-    map.addLayer({
-        id: 'Tea_farms_census_2017',
-        type:'fill',
-        source: {
-            type: 'vector',
-            url: 'mapbox://dev0510.4uhv9srz'
-        },
-        'source-layer': 'Tea_farms_census_2017-8kieeo',
-        paint: {
-            'fill-color': 'blue',
-            'fill-opacity':0.3
-        }
-    });
     
-    for (i=0;i<layer_id.length;i++){
+    for (let i=0;i<layer_id.length;i++){
         map.addLayer({
             id: layer_id[i],
             type:'fill',
@@ -98,8 +85,8 @@ map.on('load', () => {
             },
             'source-layer': layer_id[i],
             paint: {
-                'fill-color': 'red',
-                'fill-opacity':0.3
+                'fill-color': layer_colours[i],
+                'fill-opacity':((2*i)+3)/10.0
             }
         });
     }
@@ -108,25 +95,20 @@ map.on('load', () => {
  
 // After the last frame rendered before the map enters an "idle" state.
 map.on('idle', () => {
-	// Add an event listener to update layer opacity when the slider changes
-    document.getElementById('opacity-slider-1').addEventListener('input', function (e) {
-        var opacity = parseFloat(e.target.value);
+
+    fillLayers = ['tea_musk_vector_diss_edit-54q76e','corporative_data-4k996u','Tea_farms_census_2017-8kieeo']
+	
 
         // Update the opacity of all fill layers
-        layer_id.forEach(function (layerId) {
-            map.setPaintProperty(layerId, 'fill-opacity', opacity);
-        });
-    });
-
-    // Add an event listener to update layer opacity when the slider changes
-    document.getElementById('opacity-slider-2').addEventListener('input', function (e) {
-        var opacity = parseFloat(e.target.value);
-
-        // Update the opacity of layer
-        map.setPaintProperty('Tea_farms_census_2017', 'fill-opacity', opacity);
-    });
-
+        for (let i =0;i<fillLayers.length;i++){
+            // Add an event listener to update layer opacity when the slider changes
+            document.getElementById('opacity-slider-'+String(i+1)).addEventListener('input', function (e) {
+                var opacity = parseFloat(e.target.value);
+                map.setPaintProperty(fillLayers[i], 'fill-opacity', opacity);
+            });
+        }
 });
+
 
 const toggleButton = document.getElementById('toggle-overlay-button');
 const mapOverlay = document.querySelector('.map-overlay');
@@ -140,11 +122,13 @@ toggleButton.addEventListener('click', () => {
         mapOverlay.style.display = 'none';
         mapOverlayContainer.style.height = '40px';
         toggleButton.innerHTML = "Layers &#129147;";
+        // toggleButton.opacity = "100%";
     } else {
         mapOverlay.style.display = 'block';
         toggleButton.innerHTML = "Layers &#129145;"
-        mapOverlayContainer.style.height = '140px';
-        mapOverlay.style.backgroundcolor = 'white';
+        mapOverlayContainer.style.height = '200px';
+        // toggleButton.opacity = "85%";
+        // mapOverlay.style.backgroundcolor = 'white';
     }
 });
 
