@@ -112,7 +112,7 @@ map.on('idle', () => {
 
 const toggleButton = document.getElementById('toggle-overlay-button');
 const mapOverlay = document.querySelector('.map-overlay');
-const mapOverlayContainer = document.querySelector('.map-overlay');
+const mapOverlayContainer = document.querySelector('.map-overlay-container');
 
 // Initially, set the content as visible and the button text as '-'
 mapOverlay.style.display = 'block';
@@ -120,15 +120,13 @@ mapOverlay.style.display = 'block';
 toggleButton.addEventListener('click', () => {
     if (mapOverlay.style.display === 'block' ) {
         mapOverlay.style.display = 'none';
-        mapOverlayContainer.style.height = '40px';
         toggleButton.innerHTML = "Layers &#129147;";
-        // toggleButton.opacity = "100%";
+        mapOverlay.style.height = "0px"; // Collapse the overlay
     } else {
         mapOverlay.style.display = 'block';
         toggleButton.innerHTML = "Layers &#129145;"
-        mapOverlayContainer.style.height = '200px';
-        // toggleButton.opacity = "85%";
-        // mapOverlay.style.backgroundcolor = 'white';
+        mapOverlayContainer.style.height = '240px';
+        mapOverlay.style.height = "200px"; 
     }
 });
 
