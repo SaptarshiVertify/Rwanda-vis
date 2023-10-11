@@ -126,8 +126,20 @@ toggleButton.addEventListener('click', () => {
         mapOverlay.style.display = 'block';
         toggleButton.innerHTML = "Layers &#129145;"
         mapOverlayContainer.style.height = '240px';
-        mapOverlay.style.height = "200px"; 
+        mapOverlay.style.height = "300px"; 
     }
+});
+
+var months = ['Aug','March','Oct','Dec'];
+
+// Change raster layer 
+var sliderTime = document.getElementById('time-slider');
+var month = document.getElementById('month');
+sliderTime.addEventListener('input', function (e) {
+    var index = parseFloat(e.target.value);
+    var mnt = months[index];
+    month.innerHTML= `Selected month : ${mnt}`
+    // map.setPaintProperty(fillLayers[i], 'fill-opacity', opacity);
 });
 
 // Listen for changes in the dropdown
