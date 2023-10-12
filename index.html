@@ -14,12 +14,19 @@
 			<img src="logo.jpeg" width="110px" height="35px">
 		</div>
 		<div class="map-overlay-container">
-			<button id="toggle-overlay-button">Layers &#129145;</button>
+			<button id="toggle-overlay-button">Dashboard</button>
 			<div class="map-overlay">
-				<p style="font-size: 32;">&nbsp;
+				<!-- Vector layers on/off switch -->
+				<h3 style="font-size: 20px; padding: 0; margin: 0;">Plantation Area
+				&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;<label class="switch">
+					<input id="vectors" type="checkbox" checked>
+					<span class="slider round"></span>
+				  </label></h3>
+				<!-- Legend and opacity sliders -->
+				<p>&nbsp;
 				<svg width="10" height="10">
 					<rect width="10" height="10" style="fill:rgb(255, 0, 0);stroke-width:3;stroke:rgb(0, 0, 0)" />
-				</svg>&nbsp;Tea plantation area (Vertify analysis 2023)
+				</svg>&nbsp;Vertify analysis 2023
 				<br>
 				&nbsp; Opacity:
 				<input id="opacity-slider-1" class="opacity-slider" type="range" min="0" max="1" step="0.1" value="0.7" />
@@ -27,7 +34,7 @@
 				&nbsp;
 				<svg width="10" height="10">
 					<rect width="10" height="10" style="fill:rgb(234, 255, 0);stroke-width:3;stroke:rgb(0, 0, 0)" />
-				</svg>&nbsp;Tea plantation area (Cooperative Census &nbsp;&nbsp;2022)
+				</svg>&nbsp;Cooperative Census 2022
 				<br>
 				&nbsp; Opacity:
 				<input id="opacity-slider-2" class="opacity-slider" type="range" min="0" max="1" step="0.1" value="0.5" />
@@ -35,7 +42,7 @@
 				&nbsp;
 				<svg width="10" height="10">
 					<rect width="10" height="10" style="fill:rgb(0, 0, 255);stroke-width:3;stroke:rgb(0, 0, 0)" />
-				</svg>&nbsp;Tea plantation area (Census 2017)
+				</svg>&nbsp;Census 2017
 				<br>
 				&nbsp; Opacity:
 				<input id="opacity-slider-3" class="opacity-slider" type="range" min="0" max="1" step="0.1" value="0.3" />
@@ -45,39 +52,43 @@
 					<rect width="12" height="5" style="fill:rgb(0, 0, 0);stroke: width 1;stroke:rgb(255, 255, 255) " />
 				</svg>&nbsp;District Boundaries
 				</p>
+				<!-- Dropdown container for district zooming -->
 				<div id="dropdown-container">
 					<p><span>
 					<label for="district-dropdown">Select District:
-					<select id="district-dropdown">
+					<select id="district-dropdown" style="background-color: rgb(239, 239, 234); border-radius: 3px;">
 						<option value="All" selected>All districts</option></label>
 					</select>
 					</span></p>
 				</div>
-				&nbsp;
-				<b>Affected Areas <i>(Analysis by Vertify)</i></b>
+				<h3 style="font-size: 20px; padding: 0; margin: 0;"><b>Affected Areas <i>(Analysis by Vertify)</i></b>
 				<label class="switch">
-					<input type="checkbox" unchecked>
+					<input id="rasters" type="checkbox" unchecked>
 					<span class="slider round"></span>
-				  </label>
-				<br>
-				&nbsp; 
-				<input id="time-slider" class="time-slider" type="range" min="0" max="3" step="1" value="1" /><br>
-				<label id="month"> Selected month : March</label>
+				  </label></h3>
+				<label id="month"> Selected month : June</label><br>
+				<input id="time-slider" class="time-slider" type="range" min="0" max="2" step="1" value="0" /><br>
 				</p>
 				<div id="dropdown-container">
 					<p><span>
-					<label for="affected-dropdown">Select Location:
-					<select id="affected-dropdown">
+					<label for="affected-dropdown">&nbsp;Select Location:
+					<select id="affected-dropdown" style="background-color: rgb(239, 239, 234); border-radius: 3px;">
 						<option value="All" selected>All districts</option></label>
 					</select>
-					</span></p>
+					</span>
+					</p>
 				</div>
+				<p>Statistics<button id="stats-collapse" style="height: 18px; color: aliceblue; background-color: rgb(52, 78, 78);">+</button></p>
+			</div>
+			<!-- End of map overlay -->
+			<div id="stats" style="background-color: rgb(255, 255, 255); color: black;">
+				<b><p id="stats-p">District selected : All<br>Total area : 938135.3 Ha<br>Tea plantation area : 22890Ha</p></b>
 			</div>
 		</div>
-		<div id="stats">
+		<!-- <div id="stats">
 			<strong><h2 style="text-align: center; font-size: 48; font-family: 'Times New Roman', Times, serif;">Statistics</h2></strong>
 			<b><p id="stats-p">District selected : All<br>Total area : 938135.3 Ha<br>Tea plantation area : 22890Ha</p></b>
-		</div>
+		</div> -->
 		<script src="map.js"></script>
 	</body>
 </html>

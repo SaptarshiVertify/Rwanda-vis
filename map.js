@@ -40,27 +40,13 @@ for (i in dists){
 };
 
 map.on('load', () => {
+
+    // ------Add the district boundaries-------
     map.addSource('your-vector-source', {
         type: 'vector',
         url: 'mapbox://dev0510.8h24xvdp' // Replace with the URL of your vector file
     });
 
-    map.addLayer({
-        id: 'vector-boundaries',
-        type: 'fill',
-        source: 'your-vector-source',
-        'source-layer': 'attachments-7r74eu', // Replace with your source layer name
-        paint: {
-            'fill-color': 'transparent', // Transparent fill
-            'fill-outline-color': 'blue', // Boundary color
-            'fill-opacity': 0.5 // Adjust fill opacity as needed (0 for completely transparent)
-        },
-        layout: {
-            'visibility': 'visible' // Layer visibility (you can toggle this if needed)
-        }
-    });
-
-    // Add a boundary line layer on top of the filled polygons
     map.addLayer({
         id: 'vector-boundary-lines',
         type: 'line',
@@ -75,6 +61,7 @@ map.on('load', () => {
         }
     });   
     
+    // ------ Add the vector layers --------
     for (let i=0;i<layer_id.length;i++){
         map.addLayer({
             id: layer_id[i],
@@ -91,26 +78,114 @@ map.on('load', () => {
         });
     }
 
+    // -----------Add raster and damage area polygons ------
+    // map.addSource('raster-source', {
+    //     type: 'raster',
+    //     url: 'mapbox://dev0510.877dyjzv'
+    // });
+
+    // Change raster layer 
+
+    var raster_urls = ['dev0510.877dyjzv','dev0510.9rdk8b5f','dev0510.a39v5k72'];
+    for (let i=0;i<raster_urls.length;i++){
+        console.log(i);
+        map.addLayer({
+            'id': 'raster-image-'+String(i),
+            'type': 'raster',
+            'source': {
+                type: 'raster',
+                url: 'mapbox://'+raster_urls[i]
+            },
+            // 'source-layer': 'your-source-layer', // if applicable
+            'minzoom': 0,
+            'maxzoom': 22,
+            layout: {
+                'visibility': 'none' // Layer visibility (you can toggle this if needed)
+            },
+            paint: {
+                'raster-opacity' : 0
+            }
+        });
+    }
+    
+    map.addSource('damaged-poly', {
+        type: 'vector',
+        url : 'mapbox://dev0510.0dgqcsjj'
+        // url: 'mapbox://dev0510.0dgqcsjj' // Replace with the URL of your vector file
+    });
+
+    map.addLayer({
+        id: 'damaged-poly-bounds',
+        type: 'line',
+        source: 'damaged-poly',
+        'source-layer': 'damage-bqaobq', // Replace with your source layer name
+        paint: {
+            'line-color': 'yellow', // Boundary color
+            'line-width': 3 // Boundary line width
+        },
+        layout: {
+            'visibility': 'none' // Layer visibility (you can toggle this if needed)
+        }
+    });
+
 });
  
 // After the last frame rendered before the map enters an "idle" state.
 map.on('idle', () => {
+    var fillLayers = ['tea_musk_vector_diss_edit-54q76e','corporative_data-4k996u','Tea_farms_census_2017-8kieeo'];
+    var vecToggle = document.getElementById('vectors');
+    var rasToggle = document.getElementById('rasters');
+        
 
-    fillLayers = ['tea_musk_vector_diss_edit-54q76e','corporative_data-4k996u','Tea_farms_census_2017-8kieeo']
-	
+    // Update the opacity of all fill layers
+    for (let i =0;i<fillLayers.length;i++){
+        // Add an event listener to update layer opacity when the slider changes
+        document.getElementById('opacity-slider-'+String(i+1)).addEventListener('input', function (e) {
+            var opacity = parseFloat(e.target.value);
+            map.setPaintProperty(fillLayers[i], 'fill-opacity', opacity);
+        });
+    }
+    
+    // Update toggle for all vector layers
+    vecToggle.addEventListener('change', () => {
+        const visibility = vecToggle.checked ? 'visible' : 'none';
+        for (i in fillLayers){
+            map.setLayoutProperty(fillLayers[i], 'visibility', visibility);
+        }   
+    });
 
-        // Update the opacity of all fill layers
-        for (let i =0;i<fillLayers.length;i++){
-            // Add an event listener to update layer opacity when the slider changes
-            document.getElementById('opacity-slider-'+String(i+1)).addEventListener('input', function (e) {
-                var opacity = parseFloat(e.target.value);
-                map.setPaintProperty(fillLayers[i], 'fill-opacity', opacity);
-            });
-        }
+
+    // If the affected layers were not added to the map, abort
+	// if (!map.getLayer('raster-image')) {
+    //     return;
+    // }
+    // Update toggle for all affected layers
+    rasToggle.addEventListener('change', () => {
+        const visibility = rasToggle.checked ? 'visible' : 'none';
+        var rasLayIDs = ['raster-image-0','raster-image-1','raster-image-2'];
+        var sliderTime = document.getElementById('time-slider');
+        map.setPaintProperty('raster-image-0', 'raster-opacity',1);
+        map.setLayoutProperty('raster-image-0', 'visibility', visibility);
+        map.setLayoutProperty('raster-image-1', 'visibility', visibility);
+        map.setLayoutProperty('raster-image-2', 'visibility', visibility);
+        sliderTime.addEventListener('input', function (e) {
+            var index = parseFloat(e.target.value);
+            for (i in rasLayIDs){
+                if (rasLayIDs[i].split('-')[2]==index){
+                    map.setPaintProperty(rasLayIDs[i], 'raster-opacity',1);
+                }
+                else {
+                    map.setPaintProperty(rasLayIDs[i], 'raster-opacity',0);
+                }
+            }
+        });
+        map.setLayoutProperty('damaged-poly-bounds','visibility',visibility); 
+    });
 });
 
-
 const toggleButton = document.getElementById('toggle-overlay-button');
+const statsButton = document.getElementById('stats-collapse');
+const stats = document.getElementById('stats');
 const mapOverlay = document.querySelector('.map-overlay');
 const mapOverlayContainer = document.querySelector('.map-overlay-container');
 
@@ -120,26 +195,46 @@ mapOverlay.style.display = 'block';
 toggleButton.addEventListener('click', () => {
     if (mapOverlay.style.display === 'block' ) {
         mapOverlay.style.display = 'none';
-        toggleButton.innerHTML = "Layers &#129147;";
+        stats.style.display = 'none'
+        // toggleButton.innerHTML = "Layers &#129147;";
         mapOverlay.style.height = "0px"; // Collapse the overlay
+        toggleButton.style.opacity = "75%";
+        // mapOverlay.style.maxHeight = null;
     } else {
         mapOverlay.style.display = 'block';
-        toggleButton.innerHTML = "Layers &#129145;"
-        mapOverlayContainer.style.height = '240px';
-        mapOverlay.style.height = "300px"; 
+        // toggleButton.innerHTML = "Layers &#129145;"
+        mapOverlay.style.height = "330px"; 
+        // mapOverlay.style.maxHeight =  "300px";
+        toggleButton.style.opacity = "95%";
     }
 });
 
-var months = ['Aug','March','Oct','Dec'];
+statsButton.addEventListener('click', () => {
+    if (stats.style.display === 'block' ) {
+        stats.style.display = 'none';
+        // toggleButton.innerHTML = "Layers &#129147;";
+        // stats.style.height = "0px"; // Collapse the overlay
+        // toggleButton.style.opacity = "75%";
+        // mapOverlay.style.maxHeight = null;
+    } else {
+        stats.style.display = 'block';
+        // toggleButton.innerHTML = "Layers &#129145;"
+        // mapOverlay.style.height = "330px"; 
+        // mapOverlay.style.maxHeight =  "300px";
+        // toggleButton.style.opacity = "95%";
+    }
+});
+
+var months = ['June','July','October','Dec'];
 
 // Change raster layer 
 var sliderTime = document.getElementById('time-slider');
 var month = document.getElementById('month');
+var curr = sliderTime.value;
 sliderTime.addEventListener('input', function (e) {
     var index = parseFloat(e.target.value);
     var mnt = months[index];
     month.innerHTML= `Selected month : ${mnt}`
-    // map.setPaintProperty(fillLayers[i], 'fill-opacity', opacity);
 });
 
 // Listen for changes in the dropdown
