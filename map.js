@@ -11,7 +11,7 @@ const map = new mapboxgl.Map({
     // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
     style: 'mapbox://styles/mapbox/satellite-v9',
 	opacity: 1,
-    center: [29.7,-1.7],
+    center: [29.7,-1.9],
     zoom: 10,
     // projection: 'natural' // starting projection
     // maxBounds: bounds
@@ -28,7 +28,10 @@ var tea_areas = [4008,2821,3170,2967,1851,804,1716,2478,1585,1101,389];
 
 var layer_id=['Tea_farms_census_2017-8kieeo','corporative_data-4k996u','tea_musk_vector_diss_edit-54q76e'];
 var layer_src = ['dev0510.4uhv9srz','dev0510.89bph4q2','dev0510.52ks4r0r'];
-var layer_colours = ['blue','yellow','red']
+var layer_colours = ['blue','yellow','red'];
+var damageLocations = [
+    []
+];
 
 // Populate dropdown menu for each layer
 var dist_drop = document.getElementById('district-dropdown');
@@ -86,7 +89,8 @@ map.on('load', () => {
 
     // Change raster layer 
 
-    var raster_urls = ['dev0510.877dyjzv','dev0510.9rdk8b5f','dev0510.a39v5k72'];
+    var raster_urls = ['dev0510.ajipjq4z','dev0510.bqj4mfwt','dev0510.ay4mo5bs'];
+    // var raster_urls = ['https://drive.google.com/file/d/1wjUYqOCXcuTw_uKZJxFH-aPMjag9zxzZ/view?usp=sharing','mapbox://dev0510.9rdk8b5f','mapbox://dev0510.a39v5k72'];
     for (let i=0;i<raster_urls.length;i++){
         console.log(i);
         map.addLayer({
@@ -121,7 +125,7 @@ map.on('load', () => {
         'source-layer': 'damage-bqaobq', // Replace with your source layer name
         paint: {
             'line-color': 'yellow', // Boundary color
-            'line-width': 3 // Boundary line width
+            'line-width': 1 // Boundary line width
         },
         layout: {
             'visibility': 'none' // Layer visibility (you can toggle this if needed)
@@ -195,15 +199,14 @@ mapOverlay.style.display = 'block';
 toggleButton.addEventListener('click', () => {
     if (mapOverlay.style.display === 'block' ) {
         mapOverlay.style.display = 'none';
-        stats.style.display = 'none'
-        // toggleButton.innerHTML = "Layers &#129147;";
+        stats.style.display = 'none';
+        statsButton.innerHTML=`&#11167;`;
         mapOverlay.style.height = "0px"; // Collapse the overlay
         toggleButton.style.opacity = "75%";
         // mapOverlay.style.maxHeight = null;
     } else {
         mapOverlay.style.display = 'block';
-        // toggleButton.innerHTML = "Layers &#129145;"
-        mapOverlay.style.height = "330px"; 
+        mapOverlay.style.height = "340px"; 
         // mapOverlay.style.maxHeight =  "300px";
         toggleButton.style.opacity = "95%";
     }
@@ -212,20 +215,14 @@ toggleButton.addEventListener('click', () => {
 statsButton.addEventListener('click', () => {
     if (stats.style.display === 'block' ) {
         stats.style.display = 'none';
-        // toggleButton.innerHTML = "Layers &#129147;";
-        // stats.style.height = "0px"; // Collapse the overlay
-        // toggleButton.style.opacity = "75%";
-        // mapOverlay.style.maxHeight = null;
+        statsButton.innerHTML=`&#11167;`;
     } else {
         stats.style.display = 'block';
-        // toggleButton.innerHTML = "Layers &#129145;"
-        // mapOverlay.style.height = "330px"; 
-        // mapOverlay.style.maxHeight =  "300px";
-        // toggleButton.style.opacity = "95%";
+        statsButton.innerHTML=`&#11165;`;
     }
 });
 
-var months = ['June','July','October','Dec'];
+var months = ['July','August','October'];
 
 // Change raster layer 
 var sliderTime = document.getElementById('time-slider');

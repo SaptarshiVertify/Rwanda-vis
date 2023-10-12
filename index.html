@@ -66,7 +66,7 @@
 					<input id="rasters" type="checkbox" unchecked>
 					<span class="slider round"></span>
 				  </label></h3>
-				<label id="month"> Selected month : June</label><br>
+				<label id="month"> Selected month : July</label><br>
 				<input id="time-slider" class="time-slider" type="range" min="0" max="2" step="1" value="0" /><br>
 				</p>
 				<div id="dropdown-container">
@@ -78,17 +78,19 @@
 					</span>
 					</p>
 				</div>
-				<p>Statistics<button id="stats-collapse" style="height: 18px; color: aliceblue; background-color: rgb(52, 78, 78);">+</button></p>
+				<p style="font-size: 18px;"><b>Statistical Analysis</b>
+					<!-- Create button for stats div collapse/expand -->
+					<button id="stats-collapse" class="stats-collapse">&#11167;</button>
+				</p>
 			</div>
 			<!-- End of map overlay -->
-			<div id="stats" style="background-color: rgb(255, 255, 255); color: black;">
-				<b><p id="stats-p">District selected : All<br>Total area : 938135.3 Ha<br>Tea plantation area : 22890Ha</p></b>
+			<div id="stats" style="background-color: rgb(255, 255, 255); color: black; overflow-y: scroll;">
+				<b><p style="font-size: 17px; margin: 1px;">Plantation Area</p></b>
+				<p id="stats-p" style="margin: 1px;">District selected : All<br>Total area : 938135.3 Ha<br>Tea plantation area : 22890Ha</p>
+				<b><p style="font-size: 17px; margin: 1px;">Affected Area</p></b>
+				<p id="aff-p" style="margin: 1px;"><i>(Current extent of survey is restricted to Nyaruguru district only.)</i></p>
 			</div>
 		</div>
-		<!-- <div id="stats">
-			<strong><h2 style="text-align: center; font-size: 48; font-family: 'Times New Roman', Times, serif;">Statistics</h2></strong>
-			<b><p id="stats-p">District selected : All<br>Total area : 938135.3 Ha<br>Tea plantation area : 22890Ha</p></b>
-		</div> -->
 		<script src="map.js"></script>
 	</body>
 </html>
