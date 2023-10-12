@@ -218,6 +218,6 @@ body {
 
 .stats-collapse:hover {
 	background-color: rgb(236, 255, 23);
-	-webkit-text-fill-color: rgb(1, 1, 1);
+	/* -webkit-text-fill-color: rgb(1, 1, 1); */
 	opacity: 100%;
 }

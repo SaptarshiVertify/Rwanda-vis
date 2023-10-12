@@ -17,31 +17,68 @@ const map = new mapboxgl.Map({
     // maxBounds: bounds
 });
 
-//  Saving all layers : names and ids (here we also listed their centres in [long,lat] format)
-var dists = ['Nyaruguru','Karongi','Nyamasheke','Nyamagabe','Rutsiro','Rusizi','Rulindo','Gicumbi','Nyabihu','Ngororero','Rubavu'];
-// var dists_src = ['dev0510.ba0vl8yj','dev0510.96wpl6uc','dev0510.295a24zv','Nyamagabe-78mync','dev0510.2cbpva0i','dev0510.byhp8at6','dev0510.26dn88ay','dev0510.dd557ud4','dev0510.agp7tvfh','dev0510.b4sapel7','dev0510.bairm4hz'];
-var dist_centres = [
-    [29.5,-2.69],[29.41,-2.17],[29.15,-2.4],[29.434,-2.439],[29.39,-1.86],[28.94,-2.5],[29.96,-1.67],[30.04,-1.51],[29.49,-1.68],[29.52,-1.83],[29.33,-1.72]
+//  -------- Saving all district layer info -------
+var dists = [
+    // District,X,Y,Tea-17,Tea-22,Tea-ver,Over-22,Over-17
+    ['Nyaruguru',29.5,-2.69,4197,'NA',4008,3043,'NA','NA',72.50],
+    ['Karongi',29.41,-2.17,2480,'NA',2836,1928,'NA','NA',77.74],
+    ['Nyamasheke',29.15,-2.4,4329,'NA',3353,3171,'NA','NA',73.25],
+    ['Nyamagabe',29.434,-2.439,2584,'NA',2996,2044,'NA','NA',79.10],
+    ['Rutsiro',29.39,-1.86,1239,639,2394,1028,546,85.38,82.97],
+    ['Rusizi',28.94,-2.5,900,'NA',995,647,'NA','NA',71.89],
+    ['Rulindo',29.96,-1.67,1649,'NA',1849,1471,'NA','NA',89.21],
+    ['Gicumbi',30.04,-1.51,2295,'NA',2604,2089,'NA','NA',91.02],
+    ['Nyabihu',29.49,-1.68,1940,929,1666,1527,889,95.73,78.71],
+    ['Ngororero',29.52,-1.83,968,1805,1150,696,1504,83.32,71.90],
+    ['Rubavu',29.33,-1.72,387,'NA',431,371,'NA','NA',95.87]
 ];
-var dist_areas = [100834,99002.6,117195,109220,116185,95824.6,56841.6,83014.5,53840,67731.2,38446.8];
-var tea_areas = [4008,2821,3170,2967,1851,804,1716,2478,1585,1101,389];
+
+var locs = [
+    [1,'August',29.4161,-2.743],
+    [2,'August',29.4063,-2.745],
+    [3,'October',29.413,-2.757],
+    [4,'August',29.4251,-2.656],
+    [5,'August',29.4227,-2.648],
+    [6,'August',29.4278,-2.633],
+    [7,'October',29.427,-2.632],
+    [8,'October',29.5098,-2.775],
+    [9,'October',29.5052,-2.779],
+    [10,'October',29.5033,-2.771],
+    [11,'August',29.5368,-2.694],
+    [12,'August',29.5888,-2.647],
+    [13,'August',29.5864,-2.619],
+    [14,'August',29.5847,-2.593],
+    [15,'August',29.5771,-2.585],
+    [16,'August',29.5709,-2.574]
+]
 
 var layer_id=['Tea_farms_census_2017-8kieeo','corporative_data-4k996u','tea_musk_vector_diss_edit-54q76e'];
 var layer_src = ['dev0510.4uhv9srz','dev0510.89bph4q2','dev0510.52ks4r0r'];
 var layer_colours = ['blue','yellow','red'];
 var damageLocations = [
-    []
+    ['Loc 1'],
+    ['Loc 2']
 ];
 
-// Populate dropdown menu for each layer
+// ------ Dropdowns populate -----
+// Populate dropdown menu for each district
 var dist_drop = document.getElementById('district-dropdown');
 for (i in dists){
     var opt = document.createElement('option');
     opt.value = dists[i];
-    opt.text = dists[i];
+    opt.text = dists[i][0];
     dist_drop.appendChild(opt);
 };
 
+var aff_drop = document.getElementById('affected-dropdown');
+for (i in locs){
+    var opt = document.createElement('option');
+    opt.value = i;
+    opt.text = 'Location '+locs[i][0];
+    aff_drop.appendChild(opt);
+};
+
+// ------ Map load ----------
 map.on('load', () => {
 
     // ------Add the district boundaries-------
@@ -81,18 +118,10 @@ map.on('load', () => {
         });
     }
 
-    // -----------Add raster and damage area polygons ------
-    // map.addSource('raster-source', {
-    //     type: 'raster',
-    //     url: 'mapbox://dev0510.877dyjzv'
-    // });
-
-    // Change raster layer 
-
-    var raster_urls = ['dev0510.ajipjq4z','dev0510.bqj4mfwt','dev0510.ay4mo5bs'];
+    // ----- Add raster layers and damage polygons -----
+    var raster_urls = ['dev0510.ajipjq4z','dev0510.bqj4mfwt','dev0510.ay4mo5bs']; // List of raster layer ids
     // var raster_urls = ['https://drive.google.com/file/d/1wjUYqOCXcuTw_uKZJxFH-aPMjag9zxzZ/view?usp=sharing','mapbox://dev0510.9rdk8b5f','mapbox://dev0510.a39v5k72'];
     for (let i=0;i<raster_urls.length;i++){
-        console.log(i);
         map.addLayer({
             'id': 'raster-image-'+String(i),
             'type': 'raster',
@@ -112,16 +141,13 @@ map.on('load', () => {
         });
     }
     
-    map.addSource('damaged-poly', {
-        type: 'vector',
-        url : 'mapbox://dev0510.0dgqcsjj'
-        // url: 'mapbox://dev0510.0dgqcsjj' // Replace with the URL of your vector file
-    });
-
     map.addLayer({
         id: 'damaged-poly-bounds',
         type: 'line',
-        source: 'damaged-poly',
+        source: {
+            type: 'vector',
+            url : 'mapbox://dev0510.0dgqcsjj'
+        },
         'source-layer': 'damage-bqaobq', // Replace with your source layer name
         paint: {
             'line-color': 'yellow', // Boundary color
@@ -134,13 +160,13 @@ map.on('load', () => {
 
 });
  
-// After the last frame rendered before the map enters an "idle" state.
+// ----- After the last frame rendered before the map enters an "idle" state. -------
 map.on('idle', () => {
+
     var fillLayers = ['tea_musk_vector_diss_edit-54q76e','corporative_data-4k996u','Tea_farms_census_2017-8kieeo'];
     var vecToggle = document.getElementById('vectors');
     var rasToggle = document.getElementById('rasters');
         
-
     // Update the opacity of all fill layers
     for (let i =0;i<fillLayers.length;i++){
         // Add an event listener to update layer opacity when the slider changes
@@ -158,12 +184,6 @@ map.on('idle', () => {
         }   
     });
 
-
-    // If the affected layers were not added to the map, abort
-	// if (!map.getLayer('raster-image')) {
-    //     return;
-    // }
-    // Update toggle for all affected layers
     rasToggle.addEventListener('change', () => {
         const visibility = rasToggle.checked ? 'visible' : 'none';
         var rasLayIDs = ['raster-image-0','raster-image-1','raster-image-2'];
@@ -238,19 +258,76 @@ sliderTime.addEventListener('input', function (e) {
 var districtDropdown = document.getElementById('district-dropdown');
 districtDropdown.addEventListener('change', function() {
     var selectedOption = districtDropdown.value;
+    // ---- FORMAT: District,X,Y,Tea-17,Tea-22,Tea-ver,Over-17,Over-22,%-22,%-17
     if (selectedOption=='All'){
         map.setCenter([29.7,-1.7]);
         map.setZoom(10);
         var para = document.getElementById('stats-p');
-        para.innerHTML = `District selected : All<br>Total area : 938135.3 Ha<br>Tea plantation area : 22890Ha`;
+        para.innerHTML = `District selected : All
+        <br><b>Tea Areas</b>
+        <br>Vertify analysis : 24282Ha
+        <br>Census 2017 : 22968 Ha
+        <br>Corporate 2022 : 3373 Ha
+        <br>Overlap with 2022 survey : 18015 Ha
+        <br>Overlap with 2017 survey : 2939 Ha
+        <br>Overlap with 2017 survey : 2939 Ha <b>(87.13%)</b>
+        <br>Overlap with 2022 survey : 18015 Ha <b>(78.44%)</b>`;
+        var affPara = document.getElementById('aff-p');
+        affPara.innerHTML = `<i>(Current extent of survey is restricted to Nyaruguru district only.)</i>`;
     }
-    else {
-        var coords = dist_centres[dists.indexOf(selectedOption)];
+    else if (selectedOption.split(',')[0]=='Nyaruguru'){
+        console.log('Hello!');
+        var slopt = selectedOption.split(',');
+        var coords = [slopt[1],slopt[2]];
         map.setCenter(coords);
         map.setZoom(11);
         var para = document.getElementById('stats-p');
-        var tot_ar = dist_areas[dists.indexOf(selectedOption)];
-        var tea_ar = tea_areas[dists.indexOf(selectedOption)];
-        para.innerHTML = `District selected : ${selectedOption}<br>Total area : ${tot_ar}Ha<br>Tea plantation area : ${tea_ar}Ha`;
+        para.innerHTML = `District selected : ${slopt[0]}
+        <br><b>Tea Areas</b>
+        <br>Vertify analysis : ${slopt[5]} Ha
+        <br>Census 2017 : ${slopt[3]} Ha
+        <br>Corporate 2022 : ${slopt[4]} Ha
+        <br>Overlap with 2017 survey : ${slopt[6]} Ha <b>(${slopt[9]}%)</b>
+        <br>Overlap with 2022 survey : ${slopt[7]} Ha <b>(${slopt[8]}%)</b>`;
+        var affPara = document.getElementById('aff-p');
+        affPara.innerHTML = `<i>(Select any loaction to view its temporal analysis.)</i>`;
     }
+    else {
+        var slopt = selectedOption.split(',');
+        var coords = [slopt[1],slopt[2]];
+        map.setCenter(coords);
+        map.setZoom(11);
+        var para = document.getElementById('stats-p');
+        para.innerHTML = `District selected : ${slopt[0]}
+        <br><b>Tea Areas</b>
+        <br>Vertify analysis : ${slopt[5]} Ha
+        <br>Census 2017 : ${slopt[3]} Ha
+        <br>Corporate 2022 : ${slopt[4]} Ha
+        <br>Overlap with 2017 survey : ${slopt[6]} Ha <b>(${slopt[9]}%)</b>
+        <br>Overlap with 2022 survey : ${slopt[7]} Ha <b>(${slopt[8]}%)</b>`;
+        var affPara = document.getElementById('aff-p');
+        affPara.innerHTML = `<i>(Current extent of survey is restricted to Nyaruguru district only.)</i>`;
+    }    
+});
+
+var affDropdown = document.getElementById('affected-dropdown');
+affDropdown.addEventListener('change', function() {
+    var selOpt = affDropdown.value;
+    var locInfo = locs[selOpt];
+    map.setCenter([locInfo[2],locInfo[3]]);
+    map.setZoom(16);
+    console.log(locInfo);
+    // ---- FORMAT: District,X,Y,Tea-17,Tea-22,Tea-ver,Over-17,Over-22,%-22,%-17
+    var slpt = dists[0];
+    var para = document.getElementById('stats-p');
+    para.innerHTML = `District selected : ${slpt[0]}
+    <br><b>Tea Areas</b>
+    <br>Vertify analysis : ${slpt[5]} Ha
+    <br>Census 2017 : ${slpt[3]} Ha
+    <br>Corporate 2022 : ${slpt[4]} Ha
+    <br>Overlap with 2017 survey : ${slpt[6]} Ha <b>(${slpt[9]}%)</b>
+    <br>Overlap with 2022 survey : ${slpt[7]} Ha <b>(${slpt[8]}%)</b>`;
+    var affPara = document.getElementById('aff-p');
+    affPara.innerHTML = `Location selected : Location ${locInfo[0]}
+    <br><b>Month affected : ${locInfo[1]}</b>`;
 });
