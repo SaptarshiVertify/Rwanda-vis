@@ -279,7 +279,7 @@ districtDropdown.addEventListener('change', function() {
         var slopt = selectedOption.split(',');
         var coords = [slopt[1],slopt[2]];
         map.setCenter(coords);
-        map.setZoom(11);
+        map.setZoom(12);
         var para = document.getElementById('stats-p');
         para.innerHTML = `District selected : ${slopt[0]}
         <br><b>Tea Areas</b>
@@ -293,7 +293,7 @@ districtDropdown.addEventListener('change', function() {
         var slopt = selectedOption.split(',');
         var coords = [slopt[1],slopt[2]];
         map.setCenter(coords);
-        map.setZoom(11);
+        map.setZoom(12);
         var para = document.getElementById('stats-p');
         para.innerHTML = `District selected : ${slopt[0]}
         <br><b>Tea Areas</b>
