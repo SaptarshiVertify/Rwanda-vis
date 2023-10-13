@@ -362,3 +362,15 @@ affDropdown.addEventListener('change', function() {
         }
     }
 });
+
+// ------ Get Lat Long -------
+map.on('mousemove', (e) => {
+    console.log(e.lngLat);
+    var latitude =e.lngLat.lat.toFixed(3);
+    var longitude =e.lngLat.lng.toFixed(3);
+    document.getElementById('info').innerHTML =
+    // `e.point` is the x, y coordinates of the `mousemove` event
+    // relative to the top-left corner of the map.
+    // `e.lngLat` is the longitude, latitude geographical position of the event.
+    `Latitude: ${latitude},Longitude: ${longitude}`;
+    });
