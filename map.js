@@ -269,8 +269,6 @@ districtDropdown.addEventListener('change', function() {
         <br>Vertify analysis : 24282Ha
         <br>Census 2017 : 22968 Ha
         <br>Corporate 2022 : 3373 Ha
-        <br>Overlap with 2022 survey : 18015 Ha
-        <br>Overlap with 2017 survey : 2939 Ha
         <br>Overlap with 2017 survey : 2939 Ha <b>(87.13%)</b>
         <br>Overlap with 2022 survey : 18015 Ha <b>(78.44%)</b>`;
         var affPara = document.getElementById('aff-p');
@@ -286,8 +284,6 @@ districtDropdown.addEventListener('change', function() {
         para.innerHTML = `District selected : ${slopt[0]}
         <br><b>Tea Areas</b>
         <br>Vertify analysis : ${slopt[5]} Ha
-        <br>Census 2017 : ${slopt[3]} Ha
-        <br>Corporate 2022 : ${slopt[4]} Ha
         <br>Overlap with 2017 survey : ${slopt[6]} Ha <b>(${slopt[9]}%)</b>
         <br>Overlap with 2022 survey : ${slopt[7]} Ha <b>(${slopt[8]}%)</b>`;
         var affPara = document.getElementById('aff-p');
@@ -302,8 +298,6 @@ districtDropdown.addEventListener('change', function() {
         para.innerHTML = `District selected : ${slopt[0]}
         <br><b>Tea Areas</b>
         <br>Vertify analysis : ${slopt[5]} Ha
-        <br>Census 2017 : ${slopt[3]} Ha
-        <br>Corporate 2022 : ${slopt[4]} Ha
         <br>Overlap with 2017 survey : ${slopt[6]} Ha <b>(${slopt[9]}%)</b>
         <br>Overlap with 2022 survey : ${slopt[7]} Ha <b>(${slopt[8]}%)</b>`;
         var affPara = document.getElementById('aff-p');
@@ -320,8 +314,6 @@ affDropdown.addEventListener('change', function() {
         para.innerHTML = `District selected : ${slpt[0]}
         <br><b>Tea Areas</b>
         <br>Vertify analysis : ${slpt[5]} Ha
-        <br>Census 2017 : ${slpt[3]} Ha
-        <br>Corporate 2022 : ${slpt[4]} Ha
         <br>Overlap with 2017 survey : ${slpt[6]} Ha <b>(${slpt[9]}%)</b>
         <br>Overlap with 2022 survey : ${slpt[7]} Ha <b>(${slpt[8]}%)</b>`;
     if (selOpt=='All'){
