@@ -101,24 +101,7 @@ map.on('load', () => {
         }
     });   
     
-    // ------ Add the vector layers --------
-    for (let i=0;i<layer_id.length;i++){
-        map.addLayer({
-            id: layer_id[i],
-            type:'fill',
-            source: {
-                type: 'vector',
-                url: 'mapbox://'+layer_src[i]
-            },
-            'source-layer': layer_id[i],
-            paint: {
-                'fill-color': layer_colours[i],
-                'fill-opacity':((2*i)+3)/10.0
-            }
-        });
-    }
-
-    // ----- Add raster layers and damage polygons -----
+    // ----- Add raster layers -----
     var raster_urls = ['dev0510.ajipjq4z','dev0510.bqj4mfwt','dev0510.ay4mo5bs']; // List of raster layer ids
     // var raster_urls = ['https://drive.google.com/file/d/1wjUYqOCXcuTw_uKZJxFH-aPMjag9zxzZ/view?usp=sharing','mapbox://dev0510.9rdk8b5f','mapbox://dev0510.a39v5k72'];
     for (let i=0;i<raster_urls.length;i++){
@@ -140,7 +123,25 @@ map.on('load', () => {
             }
         });
     }
-    
+
+    // ------ Add the vector layers --------
+    for (let i=0;i<layer_id.length;i++){
+        map.addLayer({
+            id: layer_id[i],
+            type:'fill',
+            source: {
+                type: 'vector',
+                url: 'mapbox://'+layer_src[i]
+            },
+            'source-layer': layer_id[i],
+            paint: {
+                'fill-color': layer_colours[i],
+                'fill-opacity':((2*i)+3)/10.0
+            }
+        });
+    }
+
+    // ----- Add damage polygons
     map.addLayer({
         id: 'damaged-poly-bounds',
         type: 'line',
@@ -313,21 +314,58 @@ districtDropdown.addEventListener('change', function() {
 var affDropdown = document.getElementById('affected-dropdown');
 affDropdown.addEventListener('change', function() {
     var selOpt = affDropdown.value;
-    var locInfo = locs[selOpt];
-    map.setCenter([locInfo[2],locInfo[3]]);
-    map.setZoom(16);
-    console.log(locInfo);
-    // ---- FORMAT: District,X,Y,Tea-17,Tea-22,Tea-ver,Over-17,Over-22,%-22,%-17
     var slpt = dists[0];
-    var para = document.getElementById('stats-p');
-    para.innerHTML = `District selected : ${slpt[0]}
-    <br><b>Tea Areas</b>
-    <br>Vertify analysis : ${slpt[5]} Ha
-    <br>Census 2017 : ${slpt[3]} Ha
-    <br>Corporate 2022 : ${slpt[4]} Ha
-    <br>Overlap with 2017 survey : ${slpt[6]} Ha <b>(${slpt[9]}%)</b>
-    <br>Overlap with 2022 survey : ${slpt[7]} Ha <b>(${slpt[8]}%)</b>`;
-    var affPara = document.getElementById('aff-p');
-    affPara.innerHTML = `Location selected : Location ${locInfo[0]}
-    <br><b>Month affected : ${locInfo[1]}</b>`;
+        var para = document.getElementById('stats-p');
+        // ---- FORMAT: District,X,Y,Tea-17,Tea-22,Tea-ver,Over-17,Over-22,%-22,%-17
+        para.innerHTML = `District selected : ${slpt[0]}
+        <br><b>Tea Areas</b>
+        <br>Vertify analysis : ${slpt[5]} Ha
+        <br>Census 2017 : ${slpt[3]} Ha
+        <br>Corporate 2022 : ${slpt[4]} Ha
+        <br>Overlap with 2017 survey : ${slpt[6]} Ha <b>(${slpt[9]}%)</b>
+        <br>Overlap with 2022 survey : ${slpt[7]} Ha <b>(${slpt[8]}%)</b>`;
+    if (selOpt=='All'){
+        var affPara = document.getElementById('aff-p');
+        affPara.innerHTML = `<i>(Please select any single location to visualize.)</i>`;
+        map.setCenter([29.5,-2.69]);
+        map.setZoom(12);
+    }
+    else {
+        var locInfo = locs[selOpt];
+        map.setCenter([locInfo[2],locInfo[3]]);
+        map.setZoom(16);
+        console.log(locInfo);
+        var affPara = document.getElementById('aff-p');
+        affPara.innerHTML = `Location selected : Location ${locInfo[0]}
+        <br><b>Month affected : ${locInfo[1]}</b><br>
+        <figure>
+            <img id="myImg" alt="NDVI vs Time" src="Graphs\\${selOpt}.jpeg" style="width:330px">
+            <figcaption style="text-align: center">NDVI vs Time.</figcaption>
+        </figure>`;
+
+                // Get the modal
+        var modal = document.getElementById('myModal');
+
+        // Get the image and insert it inside the modal - use its "alt" text as a caption
+        var img = document.getElementById('myImg');
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+        if (img!=null){
+            console.log('image found');
+            img.onclick = function(){
+                modal.style.display = "block";
+                modalImg.src = this.src;
+                modalImg.alt = this.alt;
+                captionText.innerHTML = this.alt;
+            }
+            
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+            
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+            modal.style.display = "none";
+            }
+        }
+    }
 });

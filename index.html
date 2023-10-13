@@ -84,7 +84,7 @@
 				</p>
 			</div>
 			<!-- End of map overlay -->
-			<div id="stats" style="background-color: rgb(255, 255, 255); color: black; overflow-y: scroll;">
+			<div id="stats">
 				<b><p style="font-size: 17px; margin: 1px;">Plantation Area</p></b>
 				<p id="stats-p" style="margin: 1px;">District selected : All
 					<br><b>Tea Areas</b>
@@ -99,6 +99,18 @@
 				<b><p style="font-size: 17px; margin: 1px;">Affected Area</p></b>
 				<p id="aff-p" style="margin: 1px;"><i>(Current extent of survey is restricted to Nyaruguru district only.)</i></p>
 			</div>
+		</div>
+		<!-- The Modal -->
+		<div id="myModal" class="modal">
+
+			<!-- The Close Button -->
+			<span class="close" onclick="document.getElementById('myModal').style.display='none'">&times;</span>
+		
+			<!-- Modal Content (The Image) -->
+			<img class="modal-content" id="img01">
+		
+			<!-- Modal Caption (Image Text) -->
+			<div id="caption"></div>
 		</div>
 		<script src="map.js"></script>
 	</body>
