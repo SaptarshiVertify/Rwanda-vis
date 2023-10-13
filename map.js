@@ -34,22 +34,22 @@ var dists = [
 ];
 
 var locs = [
-    [1,'August',29.4161,-2.743],
-    [2,'August',29.4063,-2.745],
+    [1,'August',29.416,-2.743],
+    [2,'August',29.406,-2.745],
     [3,'October',29.413,-2.757],
-    [4,'August',29.4251,-2.656],
-    [5,'August',29.4227,-2.648],
-    [6,'August',29.4278,-2.633],
+    [4,'August',29.425,-2.656],
+    [5,'August',29.422,-2.648],
+    [6,'August',29.427,-2.633],
     [7,'October',29.427,-2.632],
-    [8,'October',29.5098,-2.775],
-    [9,'October',29.5052,-2.779],
-    [10,'October',29.5033,-2.771],
-    [11,'August',29.5368,-2.694],
-    [12,'August',29.5888,-2.647],
-    [13,'August',29.5864,-2.619],
-    [14,'August',29.5847,-2.593],
-    [15,'August',29.5771,-2.585],
-    [16,'August',29.5709,-2.574]
+    [8,'October',29.509,-2.775],
+    [9,'October',29.505,-2.779],
+    [10,'October',29.503,-2.771],
+    [11,'August',29.536,-2.694],
+    [12,'August',29.588,-2.647],
+    [13,'August',29.586,-2.619],
+    [14,'August',29.584,-2.593],
+    [15,'August',29.577,-2.585],
+    [16,'August',29.570,-2.574]
 ]
 
 var layer_id=['Tea_farms_census_2017-8kieeo','corporative_data-4k996u','tea_musk_vector_diss_edit-54q76e'];
@@ -227,7 +227,7 @@ toggleButton.addEventListener('click', () => {
         // mapOverlay.style.maxHeight = null;
     } else {
         mapOverlay.style.display = 'block';
-        mapOverlay.style.height = "340px"; 
+        mapOverlay.style.height = "390px"; 
         // mapOverlay.style.maxHeight =  "300px";
         toggleButton.style.opacity = "95%";
     }
@@ -333,11 +333,12 @@ affDropdown.addEventListener('change', function() {
     else {
         var locInfo = locs[selOpt];
         map.setCenter([locInfo[2],locInfo[3]]);
+        var LatLong = [Math.abs(locInfo[2]),Math.abs(locInfo[3])];
         map.setZoom(16);
         console.log(locInfo);
         var affPara = document.getElementById('aff-p');
-        affPara.innerHTML = `Location selected : Location ${locInfo[0]}
-        <br><b>Month affected : ${locInfo[1]}</b><br>
+        affPara.innerHTML = `Location selected (centre): (${LatLong[1]}&deg;S,${LatLong[0]}&deg;E)
+        <br>Month affected : <b>${locInfo[1]}</b><br>
         <figure>
             <img id="myImg" alt="NDVI vs Time" src="Graphs\\${selOpt}.jpeg" style="width:330px">
             <figcaption style="text-align: center">NDVI vs Time.</figcaption>
