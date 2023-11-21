@@ -224,12 +224,16 @@ toggleButton.addEventListener('click', () => {
         statsButton.innerHTML=`&#11167;`;
         mapOverlay.style.height = "0px"; // Collapse the overlay
         toggleButton.style.opacity = "75%";
+        toggleButton.style.width = "50%";
+        toggleButton.style.left = "50%";
         // mapOverlay.style.maxHeight = null;
     } else {
         mapOverlay.style.display = 'block';
         mapOverlay.style.height = "390px"; 
         // mapOverlay.style.maxHeight =  "300px";
         toggleButton.style.opacity = "95%";
+        toggleButton.style.width = "100%";
+        toggleButton.style.left = "0%";
     }
 });
 
